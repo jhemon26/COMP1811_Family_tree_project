@@ -9,7 +9,7 @@ PROGRESS:
 - The family tree has been implemented into the program in the form of a list. Hugo Piper
 - FEATURE 1 COMPLETE: Basic family tree query structure: The program is able to retrieve specific data from a family members when a user enters a family members name: DOB, Parents, Grandparents, Children & Grandchildren. Programmed by Hugo
 
-TODO:Change dates of birth, implement a system where the user can select what family members they would like to view, Feature 2a, Feature 2b, Feature 2c, Feature 3a, Feature 3b
+TODO:Implement a system where the user can select what family members they would like to view (close family, distant family (uncles, cousins...etc)), Feature 2a, Feature 2b, Feature 2c, Feature 3a, Feature 3b
 '''
 
 class FamilyMember:
@@ -114,25 +114,23 @@ linda = FamilyMember("Linda", "Jones", "01-01-1946")
 henry = FamilyMember("Henry", "Clark", "14-03-1949")
 doris = FamilyMember("Doris", "Jenkins", "06-04-1951")
 
-#todo change dates of birth
-
 # Generation 3 (Children)
-charlotte = FamilyMember("Charlotte", "West", "1970-08-01")
-jake = FamilyMember("Jake", "Porter", "1972-10-15")
-sam = FamilyMember("Sam", "Porter", "1973-03-12")
-gracie = FamilyMember("Gracie", "Porter", "1975-11-25")
-collin = FamilyMember("Collin", "Clark", "1978-06-18")
-ellie = FamilyMember("Ellie", "Clark", "1980-04-20")
-liliana = FamilyMember("Liliana", "Clark", "1975-11-25")
+charlotte = FamilyMember("Charlotte", "West", "09-09-1969")
+jake = FamilyMember("Jake", "Porter", "29-09-1972")
+sam = FamilyMember("Sam", "Porter", "05-04-1970")
+gracie = FamilyMember("Gracie", "Porter", "10-07-1974")
+collin = FamilyMember("Collin", "Clark", "16-09-1976")
+ellie = FamilyMember("Ellie", "Clark", "11-11-1978")
+liliana = FamilyMember("Liliana", "Clark", "28-08-1968")
 
 #todo change dates of birth
 
 # Generation 4 (Grandchildren)
-penny = FamilyMember("Penny", "Porter", "2000-06-09")
-micheal = FamilyMember("Micheal", "Porter", "2000-06-09")
-robert = FamilyMember("Robert", "Clark", "2000-06-09")
-niko = FamilyMember("Niko", "Clark", "2000-06-09")
-willow = FamilyMember("Willow", "Clark", "2000-06-09")
+penny = FamilyMember("Penny", "Porter", "01-02-2002")
+micheal = FamilyMember("Micheal", "Porter", "08-12-2004")
+robert = FamilyMember("Robert", "Clark", "01-05-2005")
+niko = FamilyMember("Niko", "Clark", "01-05-2005")
+willow = FamilyMember("Willow", "Clark", "27-11-2007")
 
 '''
 Setting up relationships for each generation below:
