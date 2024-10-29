@@ -56,43 +56,67 @@ class FamilyMember:
             grandchildren.update(child.children)  # Use 'update' to add all children of each child
         return list(grandchildren)  # Convert set back to list before returning
 
-    def display_family_info(self):
-        '''
-        This function displays the first name, last name, birthday, parents, grandparents, and children if there are any.
-        We used an if statement so in the event the system can't find listed kids...etc of a family member we dont get an error or a crash (We'd lose marks!).
-        '''
-        print(f"\nName: {self.first_name} {self.last_name}")
-        print(f"Birthday: {self.birthday}")
-
+    def display_immediate_family_info(self):
+    # Display parents if they exist
         if self.parents:
-            print("Parents:")
+            print("\nParents:")
             for parent in self.parents:
                 print(f" - {parent.first_name} {parent.last_name}")
         else:
-            print("No parents listed.")
-
-        grandparents = self.get_grandparents()
-        if grandparents:
-            print("Grandparents:")
-            for grandparent in grandparents:
-                print(f" - {grandparent.first_name} {grandparent.last_name}")
-        else:
-            print("No grandparents listed.")
-
+            print("\nNo parents listed.")
+    
+        # Display children if they exist
         if self.children:
-            print("Children:")
+            print("\nChildren:")
             for child in self.children:
                 print(f" - {child.first_name} {child.last_name}")
         else:
-            print("No children listed.")
+            print("\nNo children listed.")
 
-        grandchildren = self.get_grandchildren()
-        if grandchildren:
-            print("Grandchildren:")
-            for grandchild in grandchildren:
-                print(f" - {grandchild.first_name} {grandchild.last_name}")
+    def display_extended_family_info(self):
+        '''
+        This function will display the extended family information.
+        It finds the member's grandparents, aunts, uncles, and cousins.
+        '''
+        # Display grandparents
+        grandparents = self.get_grandparents()
+        if grandparents:
+            print("\nGrandparents:")
+        for grandparent in grandparents:
+            print(f" - {grandparent.first_name} {grandparent.last_name}")
         else:
-            print("No grandchildren listed.")
+            print("\nNo grandparents listed.")
+
+        # Aunts and Uncles
+        aunts_uncles = set()
+        for parent in self.parents:
+            # Check if the parent has grandparents (parents of their own)
+            if parent.parents:
+                for grandparent in parent.parents:
+                    for sibling in grandparent.children:  # Grandparent's children are the parent and aunts/uncles
+                        if sibling != parent:  # Exclude the parent themselves
+                            aunts_uncles.add(sibling)
+
+        if aunts_uncles:
+            print("\nAunts and Uncles:")
+            for aunt_uncle in aunts_uncles:
+                print(f" - {aunt_uncle.first_name} {aunt_uncle.last_name}")
+        else:
+            print("\nNo aunts or uncles listed.")
+
+        # Cousins (children of aunts/uncles only)
+        cousins = set()
+        for aunt_uncle in aunts_uncles:
+            cousins.update(aunt_uncle.children)  # Collect children of each aunt or uncle
+
+        if cousins:
+            print("\nCousins:")
+            for cousin in cousins:
+                print(f" - {cousin.first_name} {cousin.last_name}")
+        else:
+            print("\nNo cousins listed.\n")
+
+         
 
 '''
 Below are instances of FamilyMember
@@ -196,7 +220,7 @@ family_members = {
     "Ellie Clark": ellie,
     "Liliana Clark": liliana,
     "Penny Porter": penny,
-    "Micheal Micheal": micheal,
+    "Micheal Porter": micheal,
     "Robert Clark": robert,
     "Niko Clark": niko,
     "Willow Clark": willow,
@@ -210,18 +234,49 @@ def main():
     IF the family member exists --> Display Family Info
     ELSE --> display "Family member not found."
     '''
-    print("\nAvailable family members:\n")
-    for name in family_members.keys():
-        print(name)  # Print all available names.
 
-    name = input("\nEnter the full name of the family member (e.g., 'Olivia Adams'):\n> ").strip().title() #STRIP removes excess spaces, #TITLE capitalizes the start of each word to avoid incorrect entries.
-    member = family_members.get(name)
-    if member:
-      member.display_family_info()
+    name = input("\n\nEnter the full name of the family member (ex: 'Robert Clark'), type 'list' for a list of family members, type exit to exit:\n> ").strip().title() #STRIP removes excess spaces, #TITLE capitalizes the start of each word to avoid incorrect entries.
+    
+    if str(name) == 'List':
+        print("\nAvailable family members:\n")
+        for family_name in family_members.keys():
+            print(family_name)  # Print all available names
+        
+        # Prompt user again after displaying the list
+        name = input("\n\nEnter the full name of the family member (ex: 'Robert Clark'), type 'list' for a list of family members, type exit to exit:\n> ").strip().title()
+        if name == 'Exit':
+            quit("User decided to exit. Exiting...")
+        member = family_members.get(name)
     else:
-      print("Family member not found. Please check the spelling and format (e.g., 'First Last').")
+        member = family_members.get(name)
 
+    if member:
+        selection = int(input(f"\nPlease select what info you would like to see about {name}\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n9. Exit\n\n> "))
+        # IF statements to determine what the user selected 
+        if selection == 1:
+            # Feature F1A Return close family if they exist
+            member.display_immediate_family_info()
+        elif selection == 2:
+            # Feature F2B Return immediate AND extended family if they exist
+            member.display_immediate_family_info()
+            member.display_extended_family_info()
+        elif selection == 3:
+            # Feature F2A1 Return siblings if they exist
+            print("<ENTER CODE TO VIEW SIBLINGS HERE>")
+        elif selection == 4:
+            # Feature F2A2 Return cousins if they exist
+            print("<ENTER CODE TO VIEW COUSINS HERE>")
+        elif selection == 9:
+            quit("User decided to exit. Exiting...")
+        else:
+            print("You did not enter a valid selection.")
+    else:
+        print("Family member not found. Please check the spelling and format (e.g., 'First Last').")
+        
+    # Re-run main to allow another query
+    main()
 
 # Run the program
 main()
+
 
