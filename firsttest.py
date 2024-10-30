@@ -247,6 +247,8 @@ def main():
         if name == 'Exit':
             quit("User decided to exit. Exiting...")
         member = family_members.get(name)
+    elif str(name) == 'Exit':
+        quit('User decided to exit. Exiting...')
     else:
         member = family_members.get(name)
 
