@@ -272,7 +272,7 @@ def main():
         member = family_members.get(name)
 
     if member:
-        selection = int(input(f"\nPlease select what info you would like to see about or you can type return to go to the previous menu {name}\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. Return\n> "))
+        selection = int(input(f"\nPlease select what info you would like to see about {name} or you can type return to go to the previous menu\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. Return\n> "))
         
         
         # IF statements to determine what the user selected 
