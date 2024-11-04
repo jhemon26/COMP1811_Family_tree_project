@@ -243,66 +243,76 @@ family_members = {
 }
 
 
-
 def main():
-    '''
-    This function gets a family member's information (name, surname, birthdate, parents, grandparents, & kids) based on the name inputted by the user.
-    IF the family member exists --> Display Family Info
-    ELSE --> display "Family member not found."
-    '''
+    """
+    This function retrieves and displays information about a family member based on the user’s input.
+    Options include listing family members, viewing birthdays, or exiting the program.
+    """
+    while True:
+        # Get user input
+        name = input(
+            "\n\n- Enter the full name of the family member (ex: 'Robert Clark')\n"
+            "- Type 'list' for a list of family members\n"
+            "- Type 'birthdays' for a list of birthdays\n"
+            "- Type 'exit' to exit\n\n> "
+        ).strip().title()
 
-    name = input("\n\nEnter the full name of the family member (ex: 'Robert Clark'), type 'list' for a list of family members, type exit to exit:\n> ").strip().title() #STRIP removes excess spaces, #TITLE capitalizes the start of each word to avoid incorrect entries.
-   
-    # name = "Robert Clark"  For debuggig purposes onlu (remove when no needed)
-    
-    if str(name) == 'List':
-        print("\nAvailable family members:\n")
-        for family_name in family_members.keys():
-            print(family_name)  # Print all available names
-        
-        # Prompt user again after displaying the list
-        name = input("\n\nEnter the full name of the family member (ex: 'Robert Clark'), type 'list' for a list of family members, type exit to exit:\n> ").strip().title()
-        
-        if name == 'Exit':
-            quit("User decided to exit. Exiting...")
-        member = family_members.get(name)
-    elif str(name) == 'Exit':
-        quit('User decided to exit. Exiting...')
-    else:
-        member = family_members.get(name)
+        # Handle special commands: list, birthdays, and exit
+        if name == 'List':
+            print("\nAvailable family members:\n")
+            for family_name in family_members.keys():
+                print(family_name)
+            continue  # Go back to the start of the loop for the next input
 
-    if member:
-        selection = int(input(f"\nPlease select what info you would like to see about {name} or you can type return to go to the previous menu\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. Return\n> "))
-        
-        
-        # IF statements to determine what the user selected 
-        if selection == 1:
-            # Feature F1A Return close family if they exist
-            member.display_immediate_family_info()
-        elif selection == 2:
-            # Feature F2B Return immediate AND extended family if they exist
-            member.display_immediate_family_info()
-            member.display_extended_family_info()
-        elif selection == 3:
-            member.get_siblings()
-        #elif selection == 4:
-            # Feature F2A2 Return cousins if they exist
-        elif selection == 9:
-            quit("User decided to exit. Exiting...")
-            
-        elif selection == 5: exit()
-        #elif selection == 6:
-        #  return main()    i wanted to make a return function but i will work on it later 
-        
-        else:
-            print("You did not enter a valid selection.")
-    else:
-        print("Family member not found. Please check the spelling and format (e.g., 'First Last').")
-        
-    # Re-run main to allow another query
-    main()
+        elif name == 'Birthdays':
+            print("\nHere are the family members birthdays in order:\n")
+            for family_name, member in family_members.items():
+                print(f"Name: {family_name} \nBirthday: {member.birthday} \n\n")
+            continue  # Go back to the start of the loop for the next input
+
+        elif name == 'Exit':
+            print("User decided to exit. Exiting...")
+            break  # Exit the loop and end the program
+
+        # Check if the entered name matches a family member
+        member = family_members.get(name)
+        if not member:
+            print("Family member not found. Please check the spelling and format (e.g., 'First Last').")
+            continue  # Go back to the start of the loop for the next input
+
+        # Display options for the selected member
+        while True:
+            try:
+                selection = int(input(
+                    f"\nPlease select what info you would like to see about {name} or type '6' to return to the main menu\n"
+                    "1. View Close Family\n"
+                    "2. View Extended Family\n"
+                    "3. View Siblings\n"
+                    "4. View Cousins\n"
+                    "5. Exit\n"
+                    "6. Return to main menu\n> "
+                ))
+            except ValueError:
+                print("Invalid input. Please enter a number between 1 and 6.")
+                continue
+
+            # Perform actions based on user selection
+            if selection == 1:
+                member.display_immediate_family_info()
+            elif selection == 2:
+                member.display_immediate_family_info()
+                member.display_extended_family_info()
+            elif selection == 3:
+                member.get_siblings()
+            elif selection == 4:
+                member.display_extended_family_info()  # Assuming cousins are included in extended family
+            elif selection == 5:
+                print("User decided to exit. Exiting...")
+                quit() # End the program
+            elif selection == 6:
+                break  # Return to the main menu
+            else:
+                print("Invalid selection. Please choose a valid option.")
 
 # Run the program
 main()
-
-
