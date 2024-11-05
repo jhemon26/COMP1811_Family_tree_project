@@ -1,17 +1,15 @@
-import pprint
 '''
 Jahid Emon & Hugo Piper's work.
 Family tree project 1.
 Paradigms of Programming
 26/10/2024
 
-PROGRESS:
-- Family tree created in Lucidchart with names, relationships and DOB's. Jahid Emon & Hugo Piper
-- The family tree has been implemented into the program in the form of a list. Hugo Piper
-- FEATURE 1 COMPLETE: Basic family tree query structure: The program is able to retrieve specific data from a family members when a user enters a family members name: DOB, Parents, Grandparents, Children & Grandchildren. Programmed by Hugo
 
-TODO:Implement a system where the user can select what family members they would like to view (close family, distant family (uncles, cousins...etc)), Feature 2a, Feature 2b, Feature 2c, Feature 3a, Feature 3b
+TODO: Add date of death and calcuate it, Use DOCSTRINGS for better marks, test for bugs and fix, update layout of certain things for better readability
 '''
+
+
+from datetime import datetime
 
 class FamilyMember:
     '''
@@ -38,15 +36,12 @@ class FamilyMember:
     # Display siblings of the Family member.
     def get_siblings(self):
         if len(self.parents[0].children) == 1: print("\nNo siblings listed."); exit
-        if self.parents:
+        if self.parents: #if parents exist
             print("\nSiblings:")
             for sibling in self.parents[0].children:
                 if sibling != self:
                     print(f" - {sibling.first_name} {sibling.last_name}")
 
-        
-        
-        
 
     def get_grandparents(self):
         '''
@@ -107,8 +102,8 @@ class FamilyMember:
         aunts_uncles = set()
         for parent in self.parents:
             # Check if the parent has grandparents (parents of their own)
-            if parent.parents:
-                for grandparent in parent.parents:
+            if parent.parents: #if parents paents (grandparents) exist
+                for grandparent in parent.parents: #counts the amount of parents parents (grandparents)
                     for sibling in grandparent.children:  # Grandparent's children are the parent and aunts/uncles
                         if sibling != parent:  # Exclude the parent themselves
                             aunts_uncles.add(sibling)
@@ -133,7 +128,6 @@ class FamilyMember:
             print("\nNo cousins listed.\n")
 
          
-
 '''
 Below are instances of FamilyMember
 '''
@@ -162,8 +156,6 @@ gracie = FamilyMember("Gracie", "Porter", "10-07-1974")
 collin = FamilyMember("Collin", "Clark", "16-09-1976")
 ellie = FamilyMember("Ellie", "Clark", "11-11-1978")
 liliana = FamilyMember("Liliana", "Clark", "28-08-1968")
-
-#todo change dates of birth
 
 # Generation 4 (Grandchildren)
 penny = FamilyMember("Penny", "Porter", "01-02-2002")
@@ -213,7 +205,7 @@ willow.add_parent(collin)
 
 
 
-# Dictionary to store family members
+# Dictionary to store all the family members
 family_members = {
     "Margret Doyle": margret,
     "Albert Adams": albert,
@@ -265,10 +257,13 @@ def main():
             continue  # Go back to the start of the loop for the next input
 
         elif name == 'Birthdays':
-            print("\nHere are the family members birthdays in order:\n")
-            for family_name, member in family_members.items():
-                print(f"Name: {family_name} \nBirthday: {member.birthday} \n\n")
-            continue  # Go back to the start of the loop for the next input
+            print("\nHere are the family members' birthdays in day/month order:\n")
+            # Sorts family members by birth day and month, ignoring the year. This uses a sorted function to sort the data that the 'lambda' function extracts (lambda is used to extract the birth day data and the birth month data)
+            sorted_birthdays = sorted(family_members.items(), key=lambda x: datetime.strptime(x[1].birthday, "%d-%m-%Y").strftime("%m-%d"))
+            for family_name, member in sorted_birthdays:
+                #string formatting has been used here to neatly present the list of birthdays
+                print(f"{family_name:.<20}{member.birthday} ")
+            continue # Go back to the start of the loop for the next input
 
         elif name == 'Exit':
             print("User decided to exit. Exiting...")
@@ -314,5 +309,5 @@ def main():
             else:
                 print("Invalid selection. Please choose a valid option.")
 
-# Run the program
+# Runs the main program
 main()
