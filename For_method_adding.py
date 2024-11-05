@@ -85,7 +85,7 @@ class FamilyMember:
         
         
         
-        
+     # Display grandparents of the Family member.   
     def get_grandparents(self):
         '''
         This function links the family member entered to a grandparent.
@@ -98,7 +98,9 @@ class FamilyMember:
         for parent in self.parents:
             grandparents.extend(parent.parents)
         return grandparents
-
+    
+    
+    # Display grandchildren of the Family member.
     def get_grandchildren(self):
         '''
         This function finds and returns the grandchildren of the family member
@@ -109,7 +111,9 @@ class FamilyMember:
         for child in self.children:
             grandchildren.update(child.children)  # Use 'update' to add all children of each child
         return list(grandchildren)  # Convert set back to list before returning
-
+    
+    
+    # Display the immediate family of the Family member.
     def display_immediate_family_info(self):
     # Display parents if they exist
         if self.parents:
@@ -126,18 +130,19 @@ class FamilyMember:
                 print(f" - {child.first_name} {child.last_name}")
         else:
             print("\nNo children listed.")
-
+            
+            
+        # Display grandparents
     def display_extended_family_info(self):
         '''
         This function will display the extended family information.
         It finds the member's grandparents, aunts, uncles, and cousins.
         '''
-        # Display grandparents
         grandparents = self.get_grandparents()
         if grandparents:
             print("\nGrandparents:")
-        for grandparent in grandparents:
-            print(f" - {grandparent.first_name} {grandparent.last_name}")
+            for grandparent in grandparents:
+                print(f" - {grandparent.first_name} {grandparent.last_name}")
         else:
             print("\nNo grandparents listed.")
 
@@ -311,8 +316,8 @@ def main():
 
     if member:
         selection = int(input(f"\nPlease select what info you would like to see about or you can type return to go to the previous menu {name}\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. Return\n> "))
-        # IF statements to determine what the user selected 
         
+        # IF statements to determine what the user selected 
         if selection == 1:
             # Feature F1A Return close family if they exist
             member.display_immediate_family_info()
@@ -320,8 +325,8 @@ def main():
         elif selection == 2:
             # Feature F2B Return immediate AND extended family if they exist
             member.display_immediate_family_info()
-            member.display_extended_family_info()
-              
+            member.display_extended_family_info()  
+             
         elif selection == 3:
             # Get and print siblings
             siblings = member.get_siblings()
@@ -329,7 +334,7 @@ def main():
         elif selection == 4:
             # Get and print cousins
             cousins = member.get_cousins()
-                
+              
         elif selection == 5: exit()
         #elif selection == 6:
         #  return main()    i wanted to make a return function but i will work on it later 

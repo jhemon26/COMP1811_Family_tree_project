@@ -1,4 +1,5 @@
     
+    
 import pprint
 '''
 Jahid Emon & Hugo Piper's work.
@@ -85,7 +86,7 @@ class FamilyMember:
         
         
         
-        
+     # Display grandparents of the Family member.   
     def get_grandparents(self):
         '''
         This function links the family member entered to a grandparent.
@@ -98,7 +99,9 @@ class FamilyMember:
         for parent in self.parents:
             grandparents.extend(parent.parents)
         return grandparents
-
+    
+    
+    # Display grandchildren of the Family member.
     def get_grandchildren(self):
         '''
         This function finds and returns the grandchildren of the family member
@@ -109,7 +112,9 @@ class FamilyMember:
         for child in self.children:
             grandchildren.update(child.children)  # Use 'update' to add all children of each child
         return list(grandchildren)  # Convert set back to list before returning
-
+    
+    
+    # Display the immediate family of the Family member.
     def display_immediate_family_info(self):
     # Display parents if they exist
         if self.parents:
@@ -126,18 +131,19 @@ class FamilyMember:
                 print(f" - {child.first_name} {child.last_name}")
         else:
             print("\nNo children listed.")
-
+            
+            
+        # Display grandparents
     def display_extended_family_info(self):
         '''
         This function will display the extended family information.
         It finds the member's grandparents, aunts, uncles, and cousins.
         '''
-        # Display grandparents
         grandparents = self.get_grandparents()
         if grandparents:
             print("\nGrandparents:")
-        for grandparent in grandparents:
-            print(f" - {grandparent.first_name} {grandparent.last_name}")
+            for grandparent in grandparents:
+                print(f" - {grandparent.first_name} {grandparent.last_name}")
         else:
             print("\nNo grandparents listed.")
 
