@@ -311,28 +311,25 @@ def main():
 
     if member:
         selection = int(input(f"\nPlease select what info you would like to see about or you can type return to go to the previous menu {name}\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. Return\n> "))
-        
-        
         # IF statements to determine what the user selected 
+        
         if selection == 1:
             # Feature F1A Return close family if they exist
             member.display_immediate_family_info()
+            
         elif selection == 2:
             # Feature F2B Return immediate AND extended family if they exist
             member.display_immediate_family_info()
             member.display_extended_family_info()
-            
-            
-            
-            
+              
         elif selection == 3:
             # Get and print siblings
             siblings = member.get_siblings()
+            
         elif selection == 4:
             # Get and print cousins
             cousins = member.get_cousins()
-            
-            
+                
         elif selection == 5: exit()
         #elif selection == 6:
         #  return main()    i wanted to make a return function but i will work on it later 
