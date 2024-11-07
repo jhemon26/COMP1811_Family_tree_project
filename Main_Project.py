@@ -5,24 +5,78 @@ Paradigms of Programming
 26/10/2024
 
 
-TODO: Add date of death and calcuate it, Use DOCSTRINGS for better marks, test for bugs and fix, update layout of certain things for better readability
+TODO: Use DOCSTRINGS for better marks, test for bugs and fix, update layout of certain things for better readability
 '''
 
-
-from datetime import datetime
+import pprint
+import time
+import datetime
+from datetime import date
 
 class FamilyMember:
     '''
     The __init__ method initializes each instance with a;
      firstname, lastname, a birthday & empty lists for the parents/children.
     '''
-    def __init__(self, first_name, last_name, birthday):
+    def __init__(self, first_name, last_name, birthday, death):
         self.first_name = first_name
         self.last_name = last_name
         self.birthday = birthday
         self.parents = []
         self.children = []
+        self.death = death
+        self.calculate_age()
+    
+    def calculate_age(self, print_age= False):
+        '''
+        Calculates the age of a member based on their date of birth.
+        Also determines if a member is dead or alive and prints their death date (if dead).
+        '''
+        age = ()
         
+        
+        birth_date = datetime.datetime.strptime(self.birthday, "%d-%m-%Y")
+        if self.death == "Still Alive":
+                death_date = date.today()
+        else:
+            death_date = datetime.datetime.strptime(self.death, "%d-%m-%Y")
+        age = death_date.year - birth_date.year
+        
+        if print_age:
+            print(f"\nAge of {self.first_name} {self.last_name}: {age} years")
+            print(f"Date of Birth: {self.birthday}.")
+            if self.death != "Still Alive": 
+                print(f"Date of Death: {self.death}")
+            else:
+                print("Still Alive.")
+        return age  
+
+    def average_age_of_death():
+        deceased_members = []
+    
+        # Collect each deceased family member's age at death
+        for member in family_members.values():
+            if member.death != "Still Alive":
+                age_at_death = member.calculate_age()
+                deceased_members.append((member.first_name + " " + member.last_name, age_at_death))
+    
+        # Check if we have deceased members to calculate the average
+        if deceased_members:
+            # Sort by age at death in descending order
+            deceased_members.sort(key=lambda x: x[1], reverse=True)
+        
+            # Display each deceased member's age at death
+            print("\nDeceased family members sorted by age at death (oldest to youngest):")
+            for name, age in deceased_members:
+                print(f"{name} died at age {age}.")
+        
+            # Calculate and display the average age of death
+            average_age = sum(age for _, age in deceased_members) / len(deceased_members)
+            print(f"\nAverage age of death: {average_age:.2f} years")
+        else:
+            print("\nNo deceased family members to calculate average age of death.")
+
+
 
     def add_parent(self, parent):
         '''
@@ -34,13 +88,26 @@ class FamilyMember:
         
         
     # Display siblings of the Family member.
-    def get_siblings(self):
-        if len(self.parents[0].children) == 1: print("\nNo siblings listed."); exit
-        if self.parents: #if parents exist
-            print("\nSiblings:")
+    def get_siblings(self, print_siblings=True):
+        '''
+        This function finds the siblings of the family member by checking the parent's children,
+        excluding the family member themselves.
+        '''
+        siblings = []
+        
+        if len(self.parents[0].children) == 1:
+            if print_siblings:
+                print("\nNo siblings listed.")
+            return siblings
+        
+        if self.parents:
             for sibling in self.parents[0].children:
                 if sibling != self:
-                    print(f" - {sibling.first_name} {sibling.last_name}")
+                    siblings.append(sibling)
+                    if print_siblings:
+                        print(f" - {sibling.first_name} {sibling.last_name}")
+        
+        return siblings
 
 
     def get_grandparents(self):
@@ -66,6 +133,26 @@ class FamilyMember:
         for child in self.children:
             grandchildren.update(child.children)  # Use 'update' to add all children of each child
         return list(grandchildren)  # Convert set back to list before returning
+    
+    def get_cousins(self):
+        '''
+        Finds and prints the cousins of the family member by checking the children of their parents' siblings.
+        '''
+        cousins = set()
+        
+        if self.parents:
+            for parent in self.parents:
+                siblings = parent.get_siblings(print_siblings=False)  # Retrieve the siblings list
+                for sibling in siblings:
+                    cousins.update(sibling.children)
+        
+        if cousins:
+            print("\nCousins:")
+            for cousin in cousins:
+                print(f" - {cousin.first_name} {cousin.last_name}")
+        else:
+            print("\nNo cousins listed.\n")
+
 
     def display_immediate_family_info(self):
     # Display parents if they exist
@@ -93,8 +180,8 @@ class FamilyMember:
         grandparents = self.get_grandparents()
         if grandparents:
             print("\nGrandparents:")
-        for grandparent in grandparents:
-            print(f" - {grandparent.first_name} {grandparent.last_name}")
+            for grandparent in grandparents:
+                print(f" - {grandparent.first_name} {grandparent.last_name}")
         else:
             print("\nNo grandparents listed.")
 
@@ -132,37 +219,39 @@ class FamilyMember:
 Below are instances of FamilyMember
 '''
 # Generation 1 (Grandparents)
-margret = FamilyMember("Margret", "Doyle", "06-04-1922")
-albert = FamilyMember("Albert", "Adams", "23-02-1914")
-janet = FamilyMember("Janet", "Fisher", "13-05-1922")
-nicholas = FamilyMember("Nicholas", "Porter", "20-03-1919")
-sally = FamilyMember("Sally", "Smith", "16-10-1924")
-william = FamilyMember("William", "Jones", "08-11-1923")
-peggy = FamilyMember("Peggy", "Fring", "31-12-1929")
-gus = FamilyMember("Gus", "Clark", "18-07-1918")
+margret = FamilyMember("Margret", "Doyle", "06-04-1922", "14-07-1989")
+albert = FamilyMember("Albert", "Adams", "23-02-1914", "30-10-1984")
+janet = FamilyMember("Janet", "Fisher", "13-05-1922", "11-02-1994")
+nicholas = FamilyMember("Nicholas", "Porter", "20-03-1919", "07-08-1997")
+sally = FamilyMember("Sally", "Smith", "16-10-1924", "24-04-2018")
+william = FamilyMember("William", "Jones", "08-11-1923", "09-10-2001")
+peggy = FamilyMember("Peggy", "Fring", "31-12-1929", "06-07-2022")
+gus = FamilyMember("Gus", "Clark", "18-07-1918", "18-07-1989")
 
 # Generation 2 (Parents)
-olivia = FamilyMember("Olivia", "Adams", "27-09-1942")
-joshua = FamilyMember("Joshua", "Porter", "10-07-1945")
-linda = FamilyMember("Linda", "Jones", "01-01-1946")
-henry = FamilyMember("Henry", "Clark", "14-03-1949")
-doris = FamilyMember("Doris", "Jenkins", "06-04-1951")
+olivia = FamilyMember("Olivia", "Adams", "27-09-1942", "10-02-2012")
+joshua = FamilyMember("Joshua", "Porter", "10-07-1945", "14-06-2010")
+linda = FamilyMember("Linda", "Jones", "01-01-1946", "21-08-2018")
+henry = FamilyMember("Henry", "Clark", "14-03-1949", "28-10-2020")
+doris = FamilyMember("Doris", "Jenkins", "06-04-1951", "Still Alive")
 
 # Generation 3 (Children)
-charlotte = FamilyMember("Charlotte", "West", "09-09-1969")
-jake = FamilyMember("Jake", "Porter", "29-09-1972")
-sam = FamilyMember("Sam", "Porter", "05-04-1970")
-gracie = FamilyMember("Gracie", "Porter", "10-07-1974")
-collin = FamilyMember("Collin", "Clark", "16-09-1976")
-ellie = FamilyMember("Ellie", "Clark", "11-11-1978")
-liliana = FamilyMember("Liliana", "Clark", "28-08-1968")
+charlotte = FamilyMember("Charlotte", "West", "09-09-1969", "Still Alive")
+jake = FamilyMember("Jake", "Porter", "29-09-1972", "Still Alive")
+sam = FamilyMember("Sam", "Porter", "05-04-1970", "Still Alive")
+gracie = FamilyMember("Gracie", "Porter", "10-07-1974", "Still Alive")
+collin = FamilyMember("Collin", "Clark", "16-09-1976", "12-03-2020")
+ellie = FamilyMember("Ellie", "Clark", "11-11-1978", "Still Alive")
+liliana = FamilyMember("Liliana", "Clark", "28-08-1968", "Still Alive")
+
+#todo change dates of birth
 
 # Generation 4 (Grandchildren)
-penny = FamilyMember("Penny", "Porter", "01-02-2002")
-micheal = FamilyMember("Micheal", "Porter", "08-12-2004")
-robert = FamilyMember("Robert", "Clark", "01-05-2005")
-niko = FamilyMember("Niko", "Clark", "01-05-2005")
-willow = FamilyMember("Willow", "Clark", "27-11-2007")
+penny = FamilyMember("Penny", "Porter", "01-02-2002", "Still Alive")
+micheal = FamilyMember("Micheal", "Porter", "08-12-2004", "Still Alive")
+robert = FamilyMember("Robert", "Clark", "01-05-2005", "28-03-2022")
+niko = FamilyMember("Niko", "Clark", "01-05-2005", "Still Alive")
+willow = FamilyMember("Willow", "Clark", "27-11-2007", "Still Alive")
 
 '''
 Setting up relationships for each generation below:
@@ -242,10 +331,13 @@ def main():
     """
     while True:
         # Get user input
+        time.sleep(1) #Added to improve readability in the console as text appears very fast otherwise
         name = input(
-            "\n\n- Enter the full name of the family member (ex: 'Robert Clark')\n"
+            "\n-------------------------------------------\n"
+            "\n- Enter the full name of the family member (ex: 'Robert Clark')\n"
             "- Type 'list' for a list of family members\n"
             "- Type 'birthdays' for a list of birthdays\n"
+            "- Type 'death' for a calculation of the average age of death within the family\n"
             "- Type 'exit' to exit\n\n> "
         ).strip().title()
 
@@ -259,15 +351,21 @@ def main():
         elif name == 'Birthdays':
             print("\nHere are the family members' birthdays in day/month order:\n")
             # Sorts family members by birth day and month, ignoring the year. This uses a sorted function to sort the data that the 'lambda' function extracts (lambda is used to extract the birth day data and the birth month data)
-            sorted_birthdays = sorted(family_members.items(), key=lambda x: datetime.strptime(x[1].birthday, "%d-%m-%Y").strftime("%m-%d"))
+            sorted_birthdays = sorted(family_members.items(), key=lambda x: datetime.datetime.strptime(x[1].birthday, "%d-%m-%Y").strftime("%m-%d"))
             for family_name, member in sorted_birthdays:
                 #string formatting has been used here to neatly present the list of birthdays
                 print(f"{family_name:.<20}{member.birthday} ")
             continue # Go back to the start of the loop for the next input
 
+        elif name == 'Death':
+            FamilyMember.average_age_of_death()
+            continue  # Skip the rest of the loop for this iteration
+
+
         elif name == 'Exit':
             print("User decided to exit. Exiting...")
             break  # Exit the loop and end the program
+
 
         # Check if the entered name matches a family member
         member = family_members.get(name)
@@ -277,15 +375,18 @@ def main():
 
         # Display options for the selected member
         while True:
+            time.sleep(1) #Added to improve readability in the console as text appears very fast otherwise
             try:
                 selection = int(input(
-                    f"\nPlease select what info you would like to see about {name} or type '6' to return to the main menu\n"
+                    "\n--------------------\n"
+                    f"\nPlease select what info you would like to see about {name}\n\n"
                     "1. View Close Family\n"
                     "2. View Extended Family\n"
                     "3. View Siblings\n"
                     "4. View Cousins\n"
-                    "5. Exit\n"
-                    "6. Return to main menu\n> "
+                    "5. View Age, Date of Birth & Date of Death\n\n" 
+                    "6. Return to Main Menu\n"
+                    "0. Quit\n\n> "
                 ))
             except ValueError:
                 print("Invalid input. Please enter a number between 1 and 6.")
@@ -300,12 +401,14 @@ def main():
             elif selection == 3:
                 member.get_siblings()
             elif selection == 4:
-                member.display_extended_family_info()  # Assuming cousins are included in extended family
+                cousin = member.get_cousins()
             elif selection == 5:
+                  member.calculate_age(print_age=True) # Runs the calculate_age method
+            elif selection == 6:
+                break #returns to the main menu
+            elif selection == 0:
                 print("User decided to exit. Exiting...")
                 quit() # End the program
-            elif selection == 6:
-                break  # Return to the main menu
             else:
                 print("Invalid selection. Please choose a valid option.")
 
