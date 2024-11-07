@@ -1,6 +1,8 @@
     
-    
 import pprint
+import datetime
+from datetime import date
+
 '''
 Jahid Emon & Hugo Piper's work.
 Family tree project 1.
@@ -20,12 +22,45 @@ class FamilyMember:
     The __init__ method initializes each instance with a;
      firstname, lastname, a birthday & empty lists for the parents/children.
     '''
-    def __init__(self, first_name, last_name, birthday):
+    def __init__(self, first_name, last_name, birthday, death):
         self.first_name = first_name
         self.last_name = last_name
         self.birthday = birthday
         self.parents = []
         self.children = []
+        
+        self.death = death
+        self.calculate_age()
+        
+        
+    def calculate_age(self, print_age= False):
+        age = ()
+        
+        
+        birth_date = datetime.datetime.strptime(self.birthday, "%d-%m-%Y")
+        if self.death == "Still Alive":
+                death_date = date.today()
+        else:
+            death_date = datetime.datetime.strptime(self.death, "%d-%m-%Y")
+        age = death_date.year - birth_date.year
+        
+        if print_age:
+            print(f"Age of {self.first_name} {self.last_name}: {age} years")
+            print(f"Date of Birth: {self.birthday}.")
+            if self.death != "Still Alive": 
+                print(f"Date of Death: {self.death}")
+            else:
+                print("Still Alive.")
+        return age    
+            
+        
+        
+        
+        
+        
+        
+        
+        
         
 
     def add_parent(self, parent):
@@ -182,39 +217,39 @@ class FamilyMember:
 Below are instances of FamilyMember
 '''
 # Generation 1 (Grandparents)
-margret = FamilyMember("Margret", "Doyle", "06-04-1922")
-albert = FamilyMember("Albert", "Adams", "23-02-1914")
-janet = FamilyMember("Janet", "Fisher", "13-05-1922")
-nicholas = FamilyMember("Nicholas", "Porter", "20-03-1919")
-sally = FamilyMember("Sally", "Smith", "16-10-1924")
-william = FamilyMember("William", "Jones", "08-11-1923")
-peggy = FamilyMember("Peggy", "Fring", "31-12-1929")
-gus = FamilyMember("Gus", "Clark", "18-07-1918")
+margret = FamilyMember("Margret", "Doyle", "06-04-1922", "14-07-1989")
+albert = FamilyMember("Albert", "Adams", "23-02-1914", "30-10-1984")
+janet = FamilyMember("Janet", "Fisher", "13-05-1922", "11-02-1994")
+nicholas = FamilyMember("Nicholas", "Porter", "20-03-1919", "07-08-1987")
+sally = FamilyMember("Sally", "Smith", "16-10-1924", "24-04-2006")
+william = FamilyMember("William", "Jones", "08-11-1923", "09-10-2001")
+peggy = FamilyMember("Peggy", "Fring", "31-12-1929", "06-07-2010")
+gus = FamilyMember("Gus", "Clark", "18-07-1918", "18-07-1989")
 
 # Generation 2 (Parents)
-olivia = FamilyMember("Olivia", "Adams", "27-09-1942")
-joshua = FamilyMember("Joshua", "Porter", "10-07-1945")
-linda = FamilyMember("Linda", "Jones", "01-01-1946")
-henry = FamilyMember("Henry", "Clark", "14-03-1949")
-doris = FamilyMember("Doris", "Jenkins", "06-04-1951")
+olivia = FamilyMember("Olivia", "Adams", "27-09-1942", "10-02-2012")
+joshua = FamilyMember("Joshua", "Porter", "10-07-1945", "14-06-2010")
+linda = FamilyMember("Linda", "Jones", "01-01-1946", "21-08-2018")
+henry = FamilyMember("Henry", "Clark", "14-03-1949", "28-10-2020")
+doris = FamilyMember("Doris", "Jenkins", "06-04-1951", "Still Alive")
 
 # Generation 3 (Children)
-charlotte = FamilyMember("Charlotte", "West", "09-09-1969")
-jake = FamilyMember("Jake", "Porter", "29-09-1972")
-sam = FamilyMember("Sam", "Porter", "05-04-1970")
-gracie = FamilyMember("Gracie", "Porter", "10-07-1974")
-collin = FamilyMember("Collin", "Clark", "16-09-1976")
-ellie = FamilyMember("Ellie", "Clark", "11-11-1978")
-liliana = FamilyMember("Liliana", "Clark", "28-08-1968")
+charlotte = FamilyMember("Charlotte", "West", "09-09-1969", "Still Alive")
+jake = FamilyMember("Jake", "Porter", "29-09-1972", "Still Alive")
+sam = FamilyMember("Sam", "Porter", "05-04-1970", "Still Alive")
+gracie = FamilyMember("Gracie", "Porter", "10-07-1974", "Still Alive")
+collin = FamilyMember("Collin", "Clark", "16-09-1976", "12-03-2020")
+ellie = FamilyMember("Ellie", "Clark", "11-11-1978", "Still Alive")
+liliana = FamilyMember("Liliana", "Clark", "28-08-1968", "Still Alive")
 
 #todo change dates of birth
 
 # Generation 4 (Grandchildren)
-penny = FamilyMember("Penny", "Porter", "01-02-2002")
-micheal = FamilyMember("Micheal", "Porter", "08-12-2004")
-robert = FamilyMember("Robert", "Clark", "01-05-2005")
-niko = FamilyMember("Niko", "Clark", "01-05-2005")
-willow = FamilyMember("Willow", "Clark", "27-11-2007")
+penny = FamilyMember("Penny", "Porter", "01-02-2002", "Still Alive")
+micheal = FamilyMember("Micheal", "Porter", "08-12-2004", "Still Alive")
+robert = FamilyMember("Robert", "Clark", "01-05-2005", "28-03-2022")
+niko = FamilyMember("Niko", "Clark", "01-05-2005", "Still Alive")
+willow = FamilyMember("Willow", "Clark", "27-11-2007", "Still Alive")
 
 '''
 Setting up relationships for each generation below:
@@ -316,12 +351,13 @@ def main():
         member = family_members.get(name)
 
     if member:
-        selection = int(input(f"\nPlease select what info you would like to see about or you can type return to go to the previous menu {name}\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. Return\n> "))
+        selection = int(input(f"\nPlease select what info you would like to see about or you can type return to go to the previous menu {name}\n\n1. View Close Family\n2. View extended family\n3. View siblings\n4. View cousins\n5. Exit\n6. View Age, DoB Or Death date \n0. Return\n>"))
         
         # IF statements to determine what the user selected 
         if selection == 1:
             # Feature F1A Return close family if they exist
             member.display_immediate_family_info()
+        
             
         elif selection == 2:
             # Feature F2B Return immediate AND extended family if they exist
@@ -339,6 +375,9 @@ def main():
         elif selection == 5: exit()
         #elif selection == 6:
         #  return main()    i wanted to make a return function but i will work on it later 
+        
+        elif selection == 6:
+            member.calculate_age(print_age=True)
         
         else:
             print("You did not enter a valid selection.")
