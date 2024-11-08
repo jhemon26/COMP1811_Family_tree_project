@@ -5,7 +5,7 @@ Paradigms of Programming
 26/10/2024
 
 
-TODO: Use DOCSTRINGS for better marks, test for bugs and fix, update layout of certain things for better readability
+TODO: Implement Feature F3B: 1) find the number of children for each individual. 2) Find the average number of children per person in the family.
 '''
 
 import pprint
@@ -14,11 +14,13 @@ import datetime
 from datetime import date
 
 class FamilyMember:
-    '''
-    The __init__ method initializes each instance with a;
-     firstname, lastname, a birthday & empty lists for the parents/children.
-    '''
+    
     def __init__(self, first_name, last_name, birthday, death):
+        '''
+        The __init__ method initializes each instance with a;
+        firstname, lastname, birthday & death date.
+        empty lists for the parents/children are also created.
+        '''
         self.first_name = first_name
         self.last_name = last_name
         self.birthday = birthday
@@ -52,6 +54,11 @@ class FamilyMember:
         return age  
 
     def average_age_of_death():
+        '''
+        - Gathers everyone who is dead (!= 'Still Alive')
+        - Uses a lambda function to sort all the dead members from oldest to youngest and prints them to the terminal.
+        - Calculates  the average age by additioning the age of all the dead members and dividing the total by the quanitity of dead members.
+        '''
         deceased_members = []
     
         # Collect each deceased family member's age at death
@@ -113,7 +120,7 @@ class FamilyMember:
 
     def get_grandparents(self):
         '''
-        This function links the family member entered to a grandparent.
+        This method links the family member entered to a grandparent.
         For instance: if you have a family member Collin, it finds Collins parents (Henry) then it retrieves Henry's parents
         (which will be the grandparents Peggy and Gus according to the family tree we made.)
 
@@ -126,7 +133,7 @@ class FamilyMember:
 
     def get_grandchildren(self):
         '''
-        This function finds and returns the grandchildren of the family member
+        This method finds and returns the grandchildren of the family member
         by finding the children of a family member's children.
         It uses a set to avoid duplicates.
         '''
@@ -137,7 +144,7 @@ class FamilyMember:
     
     def get_cousins(self):
         '''
-        Finds and prints the cousins of the family member by checking the children of their parents' siblings.
+        Finds and prints the cousins of the family member by checking the children of the members parents' siblings.
         '''
         cousins = set()
         
@@ -156,6 +163,11 @@ class FamilyMember:
 
 
     def display_immediate_family_info(self):
+        '''
+        This method displays a members immediate family information.
+        This includes: Parents & Children of a member.
+        The siblings are displayed in another method.
+        '''
     # Display parents if they exist
         if self.parents:
             print("\nParents:")
@@ -295,7 +307,9 @@ willow.add_parent(collin)
 
 
 
-# Dictionary to store all the family members
+'''
+ Dictionary to store all the family members to call them in an easier fashion via the code
+'''
 family_members = {
     "Margret Doyle": margret,
     "Albert Adams": albert,
@@ -328,7 +342,7 @@ family_members = {
 def main():
     """
     This function retrieves and displays information about a family member based on the user’s input.
-    Options include listing family members, viewing birthdays, or exiting the program.
+    Options include listing family members, viewing birthdays, calculating death dates, finding relatives, exiting the program & returning to the main menu..
     """
     while True:
         # Get user input
