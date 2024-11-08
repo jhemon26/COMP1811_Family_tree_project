@@ -101,6 +101,7 @@ class FamilyMember:
             return siblings
         
         if self.parents:
+            print("\nSiblings:")
             for sibling in self.parents[0].children:
                 if sibling != self:
                     siblings.append(sibling)
@@ -395,6 +396,7 @@ def main():
             # Perform actions based on user selection
             if selection == 1:
                 member.display_immediate_family_info()
+                member.get_siblings()
             elif selection == 2:
                 member.display_immediate_family_info()
                 member.display_extended_family_info()
