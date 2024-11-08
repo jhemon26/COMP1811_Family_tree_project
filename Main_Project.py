@@ -5,13 +5,13 @@ Paradigms of Programming
 26/10/2024
 
 
-TODO: Implement Feature F3B: 1) find the number of children for each individual. 2) Find the average number of children per person in the family.
+TODO: Implement Feature F3B ii: Find the average number of children per person in the family.
 '''
 
-import pprint
 import time
 import datetime
 from datetime import date
+
 
 class FamilyMember:
     
@@ -162,11 +162,12 @@ class FamilyMember:
             print("\nNo cousins listed.\n")
 
 
-    def display_immediate_family_info(self):
+    def display_immediate_family_info(self, childcount):
         '''
         This method displays a members immediate family information.
         This includes: Parents & Children of a member.
         The siblings are displayed in another method.
+        This method also includes Feature F3B: Find the number of children for each individual
         '''
     # Display parents if they exist
         if self.parents:
@@ -177,10 +178,13 @@ class FamilyMember:
             print("\nNo parents listed.")
     
         # Display children if they exist
+        childcount = 0
         if self.children:
             print("\nChildren:")
             for child in self.children:
-                print(f" - {child.first_name} {child.last_name}")
+                childcount += 1
+                print(f" - {child.first_name} {child.last_name}") #Displays a members child name and surname
+            print(f"\n{self.first_name} {self.last_name} has {childcount} children.") #Displays the amount of children for a member
         else:
             print("\nNo children listed.")
 
@@ -409,10 +413,10 @@ def main():
 
             # Perform actions based on user selection
             if selection == 1:
-                member.display_immediate_family_info()
+                member.display_immediate_family_info(0)
                 member.get_siblings()
             elif selection == 2:
-                member.display_immediate_family_info()
+                member.display_immediate_family_info(0)
                 member.display_extended_family_info()
             elif selection == 3:
                 member.get_siblings()
