@@ -5,7 +5,7 @@ Paradigms of Programming
 26/10/2024
 
 
-TODO: Implement Feature F3B ii: Find the average number of children per person in the family.
+TODO:Add spouses
 '''
 
 import time
@@ -27,7 +27,6 @@ class FamilyMember:
         self.parents = []
         self.children = []
         self.death = death
-        self.calculate_age()
     
     def calculate_age(self, print_age= False):
         '''
@@ -83,7 +82,35 @@ class FamilyMember:
         else:
             print("\nNo deceased family members to calculate average age of death.")
 
-
+    def average_age_of_children():
+        """
+        This method displays a list of each family member showing if they have children and the final average 
+        number of children per person who has children.
+        """
+        total_children = 0
+        people_with_children = 0
+        total_people = len(family_members)
+    
+        print("\nFamily Members and Their Number of Children:\n")
+    
+        # Loop through each family member and count their children
+        for member in family_members.values():
+            num_children = len(member.children)
+            total_children += num_children  # Add to total children count
+            if num_children > 0:
+                people_with_children += 1  # Count this person if they have children
+                print(f"{member.first_name} {member.last_name}: {num_children} children")
+            else:
+                print(f"{member.first_name} {member.last_name}: No children")
+    
+        # Calculate and display the average number of children per person with children
+        if people_with_children > 0:
+            average_children = total_children / people_with_children
+            print(f"\n\nAverage number of children per person with children: {average_children:.2f}")
+            average_children = total_children / total_people
+            print(f"\nAverage number of children per person in the entire family: {average_children:.2f}")
+        else:
+            print("\nNo family members with children to calculate the average.")
 
     def add_parent(self, parent):
         '''
@@ -350,13 +377,13 @@ def main():
     """
     while True:
         # Get user input
-        time.sleep(1) #Added to improve readability in the console as text appears very fast otherwise
         name = input(
             "\n-------------------------------------------\n"
             "\n- Enter the full name of the family member (ex: 'Robert Clark')\n"
             "- Type 'list' for a list of family members\n"
             "- Type 'birthdays' for a list of birthdays\n"
             "- Type 'death' for a calculation of the average age of death within the family\n"
+            "- Type 'children' to view the average amount of children per person within the family\n"
             "- Type 'exit' to exit\n\n> "
         ).strip().title()
 
@@ -380,6 +407,10 @@ def main():
             FamilyMember.average_age_of_death()
             continue  # Skip the rest of the loop for this iteration
 
+        elif name == 'Children':
+            FamilyMember.average_age_of_children()
+            continue
+
 
         elif name == 'Exit':
             print("User decided to exit. Exiting...")
@@ -394,7 +425,6 @@ def main():
 
         # Display options for the selected member
         while True:
-            time.sleep(1) #Added to improve readability in the console as text appears very fast otherwise
             try:
                 selection = int(input(
                     "\n--------------------\n"
