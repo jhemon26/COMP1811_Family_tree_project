@@ -26,6 +26,7 @@ class FamilyMember:
         self.birthday = birthday
         self.parents = []
         self.children = []
+        self.spouse = None
         self.death = death
     
     def calculate_age(self, print_age= False):
@@ -111,7 +112,8 @@ class FamilyMember:
             print(f"\nAverage number of children per person in the entire family: {average_children:.2f}")
         else:
             print("\nNo family members with children to calculate the average.")
-
+    
+    
     def add_parent(self, parent):
         '''
         This function links the family member entered to a parent.
@@ -128,12 +130,20 @@ class FamilyMember:
         excluding the family member themselves.
         '''
         siblings = []
-        
+    
+        # Check if parents list is not empty to avoid index error
+        if not self.parents:
+            if print_siblings:
+                print("\nNo parents listed, so no siblings.")
+            return siblings
+    
+        # Check if there is only one child under the parent
         if len(self.parents[0].children) == 1:
             if print_siblings:
                 print("\nNo siblings listed.")
             return siblings
-        
+    
+        # If parents exist, proceed to find siblings
         if self.parents:
             print("\nSiblings:")
             for sibling in self.parents[0].children:
@@ -141,7 +151,7 @@ class FamilyMember:
                     siblings.append(sibling)
                     if print_siblings:
                         print(f" - {sibling.first_name} {sibling.last_name}")
-        
+    
         return siblings
 
 
@@ -196,7 +206,23 @@ class FamilyMember:
         The siblings are displayed in another method.
         This method also includes Feature F3B: Find the number of children for each individual
         '''
-    # Display parents if they exist
+         # Find spouse by checking the other parent of each child
+        spouse = None
+        for child in self.children:
+            for parent in child.parents:
+                if parent != self:
+                    spouse = parent
+                    break
+            if spouse:
+                break
+    
+        # Display spouse if one is found
+        if spouse:
+            print(f"\nSpouse: {spouse.first_name} {spouse.last_name}")
+        else:
+            print("\nNo spouse listed.")
+
+        # Display parents if they exist
         if self.parents:
             print("\nParents:")
             for parent in self.parents:
