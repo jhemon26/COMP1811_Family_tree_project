@@ -8,7 +8,7 @@ Paradigms of Programming
 import time
 import datetime
 from datetime import date
-
+import sys # importing sys so that the exit works fine.
 
 class FamilyMember:
     
@@ -419,12 +419,10 @@ def main():
 
         elif name == 'Birthdays':
             print("\nHere are the family members' birthdays in day/month order:\n")
-            # Sorts family members by birth day and month, ignoring the year. This uses a sorted function to sort the data that the 'lambda' function extracts (lambda is used to extract the birth day data and the birth month data)
             sorted_birthdays = sorted(family_members.items(), key=lambda x: datetime.datetime.strptime(x[1].birthday, "%d-%m-%Y").strftime("%m-%d"))
             for family_name, member in sorted_birthdays:
-                #string formatting has been used here to neatly present the list of birthdays
                 print(f"{family_name:.<20}{member.birthday} ")
-            continue # Go back to the start of the loop for the next input
+            continue
 
         elif name == 'Death':
             FamilyMember.average_age_of_death()
@@ -448,10 +446,9 @@ def main():
 
         # Display options for the selected member
         while True:
-            time.sleep(1)
             try:
                 selection = int(input(
-                    "\n----------------------\n"
+                    "\n--------------------\n"
                     f"\nPlease select what info you would like to see about {name}\n\n"
                     "1. View Close Family\n"
                     "2. View Extended Family\n"
@@ -482,9 +479,30 @@ def main():
                 break #returns to the main menu
             elif selection == 0:
                 print("User decided to exit. Exiting...")
-                quit() # End the program
+                sys.exit()  # Immediately terminate the program
             else:
                 print("Invalid selection. Please choose a valid option.")
+                continue
+
+            asking_user_again = input("\n->Do you want to see more information about this family member?\n"   # Continue to ask for more info about this family member
+                                    
+                                      "\n>Type 'YES' to View the Information List again.\n"
+                                      "\n>Type 'RETURN' to Return to the Main Menu. \n"
+                                      "\n>Type 'EXIT' to exit the System. \n"
+            ).strip().upper()     # to avoid case sensitivity and any white spaces.
+
+            
+            
+            if asking_user_again == "YES":    # if yes then show to list again.
+                continue
+            elif asking_user_again == "RETURN":  # if return then go back to the main menu.
+                return main()
+            elif asking_user_again == "EXIT": # if exit then exit the system.
+                print("User decided to exit. Exiting...")
+                sys.exit()  # Immediately terminate the progra   # Go back to the main menu
+            else:
+                print("Invalid option. Please enter 'Yes', 'No', or 'Exit'.")
+                continue  # Ask again if the input is invalid
 
 # Runs the main program
 main()
