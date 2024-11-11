@@ -3,9 +3,6 @@ Jahid Emon & Hugo Piper's work.
 Family tree project 1.
 Paradigms of Programming
 26/10/2024
-
-
-TODO:Add spouses
 '''
 
 import time
@@ -451,9 +448,10 @@ def main():
 
         # Display options for the selected member
         while True:
+            time.sleep(1)
             try:
                 selection = int(input(
-                    "\n--------------------\n"
+                    "\n----------------------\n"
                     f"\nPlease select what info you would like to see about {name}\n\n"
                     "1. View Close Family\n"
                     "2. View Extended Family\n"
