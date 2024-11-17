@@ -3,12 +3,12 @@ Jahid Emon & Hugo Piper's work.
 Family tree project 1.
 Paradigms of Programming
 26/10/2024
+Year 1, term 1 graded coursework.
 '''
 
-import time
 import datetime
 from datetime import date
-import sys # importing sys so that the exit works fine.
+import sys #Importing sys so that exiting the program works as intended.
 
 class FamilyMember:
     
@@ -32,7 +32,6 @@ class FamilyMember:
         Also determines if a member is dead or alive and prints their death date (if dead).
         '''
         age = ()
-        
         
         birth_date = datetime.datetime.strptime(self.birthday, "%d-%m-%Y")
         if self.death == "Still Alive":
@@ -230,7 +229,7 @@ class FamilyMember:
         # Display children if they exist
         childcount = 0
         if self.children:
-            print("\nChildren:")
+            print("\n\nChildren:")
             for child in self.children:
                 childcount += 1
                 print(f" - {child.first_name} {child.last_name}") #Displays a members child name and surname
@@ -251,6 +250,16 @@ class FamilyMember:
                 print(f" - {grandparent.first_name} {grandparent.last_name}")
         else:
             print("\nNo grandparents listed.")
+
+       # Grandchildren
+        grandchildren = self.get_grandchildren()
+        if grandchildren:
+              print("\nGrandchildren:")
+              for grandchild in grandchildren:  # Use a single item variable for iteration
+                 print(f" - {grandchild.first_name} {grandchild.last_name}")  # Correctly reference grandchild
+        else:
+            print("\nNo grandchildren listed.")
+
 
         # Aunts and Uncles
         aunts_uncles = set()
@@ -280,6 +289,7 @@ class FamilyMember:
                 print(f" - {cousin.first_name} {cousin.last_name}")
         else:
             print("\nNo cousins listed.\n")
+
 
          
 '''
@@ -484,11 +494,12 @@ def main():
                 print("Invalid selection. Please choose a valid option.")
                 continue
 
+            #Allow user to view more info about a member, return to the main menu or exit the program.
             asking_user_again = input("\n->Do you want to see more information about this family member?\n"   # Continue to ask for more info about this family member
                                     
                                       "\n>Type 'YES' to View the Information List again.\n"
-                                      "\n>Type 'RETURN' to Return to the Main Menu. \n"
-                                      "\n>Type 'EXIT' to exit the System. \n"
+                                      ">Type 'RETURN' to Return to the Main Menu. \n"
+                                      ">Type 'EXIT' to Exit the Program. \n\n> "
             ).strip().upper()     # to avoid case sensitivity and any white spaces.
 
             
@@ -499,9 +510,9 @@ def main():
                 return main()
             elif asking_user_again == "EXIT": # if exit then exit the system.
                 print("User decided to exit. Exiting...")
-                sys.exit()  # Immediately terminate the progra   # Go back to the main menu
+                sys.exit()  # Immediately terminate the program
             else:
-                print("Invalid option. Please enter 'Yes', 'No', or 'Exit'.")
+                print("Invalid option. Please enter 'YES', 'RETURN', or 'EXIT'.")
                 continue  # Ask again if the input is invalid
 
 # Runs the main program
