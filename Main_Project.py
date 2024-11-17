@@ -479,6 +479,7 @@ def main():
             elif selection == 2:
                 member.display_immediate_family_info(0)
                 member.display_extended_family_info()
+                member.get_siblings()
             elif selection == 3:
                 member.get_siblings()
             elif selection == 4:
