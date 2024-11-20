@@ -121,34 +121,35 @@ class FamilyMember:
         
     # Display siblings of the Family member.
     def get_siblings(self, print_siblings=True):
-        '''
-        This function finds the siblings of the family member by checking the parent's children,
-        excluding the family member themselves.
-        '''
+
         siblings = []
     
-        # Check if parents list is not empty to avoid index error
+        # Check if parents list is empty to avoid index error
         if not self.parents:
             if print_siblings:
                 print("\nNo parents listed, so no siblings.")
             return siblings
-    
+
         # Check if there is only one child under the parent
         if len(self.parents[0].children) == 1:
             if print_siblings:
                 print("\nNo siblings listed.")
             return siblings
-    
+
         # If parents exist, proceed to find siblings
         if self.parents:
-            print("\nSiblings:")
             for sibling in self.parents[0].children:
                 if sibling != self:
                     siblings.append(sibling)
-                    if print_siblings:
-                        print(f" - {sibling.first_name} {sibling.last_name}")
-    
+
+            # Print siblings only if requested
+            if print_siblings:
+                print("\nSiblings:")
+                for sibling in siblings:
+                    print(f" - {sibling.first_name} {sibling.last_name}")
+
         return siblings
+
 
 
     def get_grandparents(self):
