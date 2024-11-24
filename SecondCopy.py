@@ -80,7 +80,7 @@ class FamilyMember:
         else:
             print("\nNo deceased family members to calculate average age of death.")
 
-    def average_age_of_children():
+    def average_num_of_children():
         """
         This method displays a list of each family member showing if they have children and the final average 
         number of children per person who has children.
@@ -429,7 +429,7 @@ def main():
             continue  # Skip the rest of the loop for this iteration
 
         elif name == 'Children':
-            FamilyMember.average_age_of_children()
+            FamilyMember.average_num_of_children()
             continue
 
 
