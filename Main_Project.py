@@ -440,7 +440,7 @@ def main():
             continue  # Skip the rest of the loop for this iteration
 
         elif name == 'Children':
-            FamilyMember.`average_num_of_children`()
+            FamilyMember.average_num_of_children()
             continue
 
 
